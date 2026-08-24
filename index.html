@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ReyCloud Uploader</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <header class="header">
+
+        <button class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="brand">
+            <img
+                src="https://api.legionteknologi.my.id/f/oveH9i.png"
+                alt="ReyCloud"
+            >
+
+            <div>
+                <strong>ReyCloud</strong>
+                <small>Media Uploader</small>
+            </div>
+        </div>
+
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="side-head">
+
+            <img
+                src="https://api.legionteknologi.my.id/f/oveH9i.png"
+                alt="Logo"
+            >
+
+            <div>
+                <strong>ReyCloud</strong>
+                <span>Digital Platform</span>
+            </div>
+
+        </div>
+
+        <nav>
+
+            <button class="nav-item active" data-page="upload">
+                <span>↑</span>
+                <div>
+                    <b>Uploader</b>
+                    <small>Upload media</small>
+                </div>
+            </button>
+
+            <button class="nav-item" data-page="api">
+                <span>{ }</span>
+                <div>
+                    <b>ReyCloud API</b>
+                    <small>API documentation</small>
+                </div>
+            </button>
+
+            <button class="nav-item" data-page="downloader">
+                <span>↓</span>
+                <div>
+                    <b>Downloader</b>
+                    <small>All media</small>
+                </div>
+            </button>
+
+            <button class="nav-item" data-page="about">
+                <span>i</span>
+                <div>
+                    <b>About</b>
+                    <small>Tentang ReyCloud</small>
+                </div>
+            </button>
+
+        </nav>
+
+        <div class="side-bottom">
+
+            <div class="status">
+                <i></i>
+                API Online
+            </div>
+
+            <small>
+                Powered By<br>
+                <b>PT Legion Teknologi</b>
+            </small>
+
+        </div>
+
+    </aside>
+
+    <main>
+
+        <!-- UPLOAD -->
+
+        <section class="page active" id="page-upload">
+
+            <div class="hero">
+
+                <div class="hero-text">
+
+                    <span class="badge">
+                        REYCLOUD UPLOADER
+                    </span>
+
+                    <h1>
+                        Upload.
+                        <br>
+                        <span>Share.</span>
+                        <br>
+                        Done.
+                    </h1>
+
+                    <p>
+                        Upload gambar, video, audio dan berbagai
+                        media dengan cepat menggunakan ReyCloud.
+                    </p>
+
+                </div>
+
+                <div class="hero-card">
+
+                    <div class="hero-card-icon">
+                        ↑
+                    </div>
+
+                    <strong>
+                        Fast Upload
+                    </strong>
+
+                    <span>
+                        Simple & reliable
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="upload-card">
+
+                <div
+                    class="drop-zone"
+                    id="dropZone"
+                >
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+                    <h2>
+                        Upload your file
+                    </h2>
+
+                    <p>
+                        Drag & drop file di sini
+                    </p>
+
+                    <span>
+                        atau
+                    </span>
+
+                    <button
+                        class="primary-btn"
+                        id="chooseBtn"
+                    >
+                        Pilih File
+                    </button>
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        hidden
+                    >
+
+                    <small>
+                        Maksimal 1GB
+                    </small>
+
+                </div>
+
+                <div
+                    class="file-info"
+                    id="fileInfo"
+                    style="display:none"
+                >
+
+                    <div class="file-icon">
+                        FILE
+                    </div>
+
+                    <div class="file-details">
+
+                        <strong id="fileName">
+                            -
+                        </strong>
+
+                        <span id="fileSize">
+                            -
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="remove-btn"
+                        id="removeFile"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+                <div
+                    class="progress-container"
+                    id="progressContainer"
+                    style="display:none"
+                >
+
+                    <div class="progress-top">
+
+                        <span>
+                            Uploading...
+                        </span>
+
+                        <b id="progressPercent">
+                            0%
+                        </b>
+
+                    </div>
+
+                    <div class="progress">
+                        <div
+                            id="progressBar"
+                            class="progress-bar"
+                        ></div>
+                    </div>
+
+                </div>
+
+                <button
+                    class="upload-btn"
+                    id="uploadBtn"
+                    disabled
+                >
+                    Upload File
+                </button>
+
+                <div
+                    class="result"
+                    id="uploadResult"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- API -->
+
+        <section class="page" id="page-api">
+
+            <div class="page-title">
+
+                <span class="badge">
+                    REYCLOUD API
+                </span>
+
+                <h1>
+                    Upload API
+                </h1>
+
+                <p>
+                    Gunakan endpoint ReyCloud untuk mengupload
+                    file dari aplikasi atau website kamu.
+                </p>
+
+            </div>
+
+            <div class="api-url">
+
+                <span>
+                    POST
+                </span>
+
+                <code>
+                    https://api.legionteknologi.my.id/upload
+                </code>
+
+                <button
+                    class="copy-small"
+                    data-copy="https://api.legionteknologi.my.id/upload"
+                >
+                    Copy
+                </button>
+
+            </div>
+
+            <div class="api-test-card">
+
+                <div class="api-test-head">
+
+                    <div>
+                        <h2>
+                            API Tester
+                        </h2>
+
+                        <p>
+                            Coba endpoint langsung dari browser.
+                        </p>
+                    </div>
+
+                    <div class="api-status">
+                        ONLINE
+                    </div>
+
+                </div>
+
+                <div class="test-upload">
+
+                    <label>
+                        Pilih file
+                    </label>
+
+                    <input
+                        type="file"
+                        id="apiFile"
+                    >
+
+                    <button
+                        class="primary-btn"
+                        id="apiTestBtn"
+                    >
+                        Test Upload
+                    </button>
+
+                </div>
+
+                <div
+                    id="apiLoading"
+                    class="api-loading"
+                    style="display:none"
+                >
+                    Mengirim request...
+                </div>
+
+                <pre
+                    id="apiResult"
+                    class="json-result"
+                >{
+  "status": true,
+  "message": "Ready"
+}</pre>
+
+            </div>
+
+            <div class="code-card">
+
+                <div class="code-head">
+
+                    <h2>
+                        Contoh Penggunaan
+                    </h2>
+
+                    <div class="code-tabs">
+
+                        <button
+                            class="code-tab active"
+                            data-code="curl"
+                        >
+                            cURL
+                        </button>
+
+                        <button
+                            class="code-tab"
+                            data-code="node"
+                        >
+                            Node.js
+                        </button>
+
+                        <button
+                            class="code-tab"
+                            data-code="rey"
+                        >
+                            ReyCloud API
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="code-box">
+
+                    <button
+                        class="copy-code"
+                        id="copyCode"
+                    >
+                        Copy
+                    </button>
+
+                    <pre id="codeOutput"></pre>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DOWNLOADER -->
+
+        <section class="page" id="page-downloader">
+
+            <div class="page-title">
+
+                <span class="badge">
+                    DOWNLOADER
+                </span>
+
+                <h1>
+                    All Media Downloader
+                </h1>
+
+                <p>
+                    Download media menggunakan endpoint
+                    downloader ReyCloud.
+                </p>
+
+            </div>
+
+            <div class="downloader-card">
+
+                <label>
+                    URL Media
+                </label>
+
+                <div class="url-input">
+
+                    <input
+                        type="url"
+                        id="downloadUrl"
+                        placeholder="https://vt.tiktok.com/..."
+                    >
+
+                    <button
+                        class="primary-btn"
+                        id="downloadBtn"
+                    >
+                        Process
+                    </button>
+
+                </div>
+
+                <div
+                    id="downloadResult"
+                    class="download-result"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="page" id="page-about">
+
+            <div class="about-card">
+
+                <div class="about-logo">
+
+                    <img
+                        src="https://api.legionteknologi.my.id/f/oveH9i.png"
+                        alt="ReyCloud"
+                    >
+
+                </div>
+
+                <span class="badge">
+                    ABOUT REYCLOUD
+                </span>
+
+                <h1>
+                    ReyCloud
+                </h1>
+
+                <p>
+                    ReyCloud adalah platform media uploader
+                    dan API yang dibuat untuk mempermudah
+                    developer mengelola serta membagikan
+                    file secara cepat.
+                </p>
+
+                <p>
+                    Kami terus mengembangkan fitur baru
+                    agar ReyCloud menjadi platform yang
+                    sederhana, cepat dan mudah digunakan.
+                </p>
+
+                <div class="support">
+
+                    <h3>
+                        Support Kami
+                    </h3>
+
+                    <div class="socials">
+
+                        <a
+                            href="https://whatsapp.com/channel/0029Vb8AU5sEQIakiPGkOA2k"
+                            target="_blank"
+                        >
+
+                            <div class="social-logo whatsapp">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20 3.9A10 10 0 0 0 3.8 16.8L3 21l4.3-1.1A10 10 0 1 0 20 3.9Zm-8 16.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-2.5.6.7-2.4-.2-.3A8.3 8.3 0 1 1 12 20.2Zm4.5-6.2c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1-.1.2-.5.7-.6.8-.1.2-.2.2-.4.1-1.1-.5-1.8-.9-2.6-2-.2-.3.2-.3.6-1 .1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 3.9 3.4 1.4.6 2 .6 2.7.5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3Z"/>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <b>WhatsApp</b>
+                                <span>Channel ReyCloud</span>
+                            </div>
+
+                        </a>
+
+
+                        <a
+                            href="https://t.me/AboutRey4You"
+                            target="_blank"
+                        >
+
+                            <div class="social-logo telegram">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M21.8 3.2 18.5 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.5.5-1 .5l.4-5.6 10.2-9.2c.4-.4-.1-.6-.6-.2L4.7 13.1.1 11.7c-1-.3-1-1 .2-1.5L20.1 2.7c.9-.3 1.8.2 1.7.5Z"/>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <b>Telegram</b>
+                                <span>About Rey4You</span>
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <span>
+            © 2026 ReyCloud
+        </span>
+
+        <span>
+            Powered By <b>PT Legion Teknologi</b>
+        </span>
+
+    </footer>
+
+</div>
+
+<div
+    class="toast"
+    id="toast"
+>
+    Copied!
+</div>
+
+<div
+    class="welcome"
+    id="welcome"
+>
+
+    <div class="welcome-box">
+
+        <button
+            class="welcome-close"
+            id="welcomeClose"
+        >
+            ×
+        </button>
+
+        <img
+            src="https://api.legionteknologi.my.id/f/oveH9i.png"
+            alt="ReyCloud"
+        >
+
+        <span class="badge">
+            WELCOME
+        </span>
+
+        <h2>
+            Hallo Pengguna 👋
+        </h2>
+
+        <p>
+            Terima kasih telah menggunakan
+            <b>ReyCloud Uploader</b>.
+        </p>
+
+        <p>
+            Semoga layanan kami dapat membantu
+            kebutuhan upload dan berbagi file kamu.
+        </p>
+
+        <button
+            class="primary-btn"
+            id="welcomeOk"
+        >
+            Mulai Sekarang
+        </button>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
