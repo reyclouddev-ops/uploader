@@ -2,28 +2,51 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="ReyCloud Media Uploader - Upload dan bagikan file dengan cepat."
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0f19"
+    >
 
     <title>ReyCloud Uploader</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
 <div class="app">
 
+    <!-- HEADER -->
+
     <header class="header">
 
-        <button class="menu-btn" id="menuBtn">
+        <button
+            class="menu-btn"
+            id="menuBtn"
+            aria-label="Buka menu"
+        >
             <span></span>
             <span></span>
             <span></span>
         </button>
 
         <div class="brand">
+
             <img
-                src="https://api.legionteknologi.my.id/f/oveH9i.png"
+                src="https://api.legionteknologi.my.id/r/zfoOtF.jpeg"
                 alt="ReyCloud"
             >
 
@@ -31,19 +54,32 @@
                 <strong>ReyCloud</strong>
                 <small>Media Uploader</small>
             </div>
+
         </div>
 
     </header>
 
-    <div class="overlay" id="overlay"></div>
 
-    <aside class="sidebar" id="sidebar">
+    <!-- OVERLAY -->
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
         <div class="side-head">
 
             <img
-                src="https://api.legionteknologi.my.id/f/oveH9i.png"
-                alt="Logo"
+                src="https://api.legionteknologi.my.id/r/zfoOtF.jpeg"
+                alt="ReyCloud Logo"
             >
 
             <div>
@@ -53,48 +89,85 @@
 
         </div>
 
+
         <nav>
 
-            <button class="nav-item active" data-page="upload">
+            <button
+                class="nav-item active"
+                data-page="upload"
+                type="button"
+            >
+
                 <span>↑</span>
+
                 <div>
                     <b>Uploader</b>
                     <small>Upload media</small>
                 </div>
+
             </button>
 
-            <button class="nav-item" data-page="api">
+
+            <button
+                class="nav-item"
+                data-page="api"
+                type="button"
+            >
+
                 <span>{ }</span>
+
                 <div>
                     <b>ReyCloud API</b>
                     <small>API documentation</small>
                 </div>
+
             </button>
 
-            <button class="nav-item" data-page="downloader">
+
+            <button
+                class="nav-item"
+                data-page="downloader"
+                type="button"
+            >
+
                 <span>↓</span>
+
                 <div>
                     <b>Downloader</b>
                     <small>All media</small>
                 </div>
+
             </button>
 
-            <button class="nav-item" data-page="about">
+
+            <button
+                class="nav-item"
+                data-page="about"
+                type="button"
+            >
+
                 <span>i</span>
+
                 <div>
                     <b>About</b>
                     <small>Tentang ReyCloud</small>
                 </div>
+
             </button>
 
         </nav>
 
+
         <div class="side-bottom">
 
             <div class="status">
+
                 <i></i>
+
                 API Online
+
             </div>
+
 
             <small>
                 Powered By<br>
@@ -105,11 +178,20 @@
 
     </aside>
 
+
+    <!-- MAIN -->
+
     <main>
 
-        <!-- UPLOAD -->
 
-        <section class="page active" id="page-upload">
+        <!-- ========================= -->
+        <!-- UPLOAD PAGE -->
+        <!-- ========================= -->
+
+        <section
+            class="page active"
+            id="page-upload"
+        >
 
             <div class="hero">
 
@@ -134,6 +216,7 @@
 
                 </div>
 
+
                 <div class="hero-card">
 
                     <div class="hero-card-icon">
@@ -152,7 +235,13 @@
 
             </div>
 
+
+            <!-- UPLOAD CARD -->
+
             <div class="upload-card">
+
+
+                <!-- DROP ZONE -->
 
                 <div
                     class="drop-zone"
@@ -163,24 +252,30 @@
                         ↑
                     </div>
 
+
                     <h2>
                         Upload your file
                     </h2>
+
 
                     <p>
                         Drag & drop file di sini
                     </p>
 
+
                     <span>
                         atau
                     </span>
 
+
                     <button
                         class="primary-btn"
                         id="chooseBtn"
+                        type="button"
                     >
                         Pilih File
                     </button>
+
 
                     <input
                         type="file"
@@ -188,11 +283,15 @@
                         hidden
                     >
 
+
                     <small>
                         Maksimal 1GB
                     </small>
 
                 </div>
+
+
+                <!-- FILE INFO -->
 
                 <div
                     class="file-info"
@@ -200,30 +299,85 @@
                     style="display:none"
                 >
 
-                    <div class="file-icon">
+                    <div
+                        class="file-icon"
+                        id="fileIcon"
+                    >
                         FILE
                     </div>
 
+
                     <div class="file-details">
 
-                        <strong id="fileName">
+                        <strong
+                            id="fileName"
+                        >
                             -
                         </strong>
 
-                        <span id="fileSize">
+
+                        <span
+                            id="fileSize"
+                        >
+                            -
+                        </span>
+
+
+                        <span
+                            id="fileType"
+                        >
                             -
                         </span>
 
                     </div>
 
+
                     <button
                         class="remove-btn"
                         id="removeFile"
+                        type="button"
+                        aria-label="Hapus file"
                     >
                         ×
                     </button>
 
                 </div>
+
+
+                <!-- PREVIEW -->
+
+                <div
+                    class="file-preview"
+                    id="filePreview"
+                    style="display:none"
+                >
+
+                    <img
+                        id="imagePreview"
+                        alt="Preview"
+                        style="display:none"
+                    >
+
+
+                    <video
+                        id="videoPreview"
+                        controls
+                        preload="metadata"
+                        style="display:none"
+                    ></video>
+
+
+                    <audio
+                        id="audioPreview"
+                        controls
+                        preload="metadata"
+                        style="display:none"
+                    ></audio>
+
+                </div>
+
+
+                <!-- PROGRESS -->
 
                 <div
                     class="progress-container"
@@ -233,32 +387,54 @@
 
                     <div class="progress-top">
 
-                        <span>
+                        <span
+                            id="progressStatus"
+                        >
                             Uploading...
                         </span>
 
-                        <b id="progressPercent">
+
+                        <b
+                            id="progressPercent"
+                        >
                             0%
                         </b>
 
                     </div>
 
+
                     <div class="progress">
+
                         <div
                             id="progressBar"
                             class="progress-bar"
                         ></div>
+
                     </div>
 
+
+                    <small
+                        id="progressInfo"
+                    >
+                        Menyiapkan upload...
+                    </small>
+
                 </div>
+
+
+                <!-- UPLOAD BUTTON -->
 
                 <button
                     class="upload-btn"
                     id="uploadBtn"
+                    type="button"
                     disabled
                 >
                     Upload File
                 </button>
+
+
+                <!-- RESULT -->
 
                 <div
                     class="result"
@@ -270,9 +446,15 @@
         </section>
 
 
-        <!-- API -->
 
-        <section class="page" id="page-api">
+        <!-- ========================= -->
+        <!-- API PAGE -->
+        <!-- ========================= -->
+
+        <section
+            class="page"
+            id="page-api"
+        >
 
             <div class="page-title">
 
@@ -280,9 +462,11 @@
                     REYCLOUD API
                 </span>
 
+
                 <h1>
                     Upload API
                 </h1>
+
 
                 <p>
                     Gunakan endpoint ReyCloud untuk mengupload
@@ -291,38 +475,51 @@
 
             </div>
 
+
+            <!-- API URL -->
+
             <div class="api-url">
 
                 <span>
                     POST
                 </span>
 
+
                 <code>
                     https://api.legionteknologi.my.id/upload
                 </code>
 
+
                 <button
                     class="copy-small"
                     data-copy="https://api.legionteknologi.my.id/upload"
+                    type="button"
                 >
                     Copy
                 </button>
 
             </div>
 
+
+            <!-- API TESTER -->
+
             <div class="api-test-card">
 
                 <div class="api-test-head">
 
                     <div>
+
                         <h2>
                             API Tester
                         </h2>
 
+
                         <p>
                             Coba endpoint langsung dari browser.
                         </p>
+
                     </div>
+
 
                     <div class="api-status">
                         ONLINE
@@ -330,25 +527,30 @@
 
                 </div>
 
+
                 <div class="test-upload">
 
-                    <label>
+                    <label for="apiFile">
                         Pilih file
                     </label>
+
 
                     <input
                         type="file"
                         id="apiFile"
                     >
 
+
                     <button
                         class="primary-btn"
                         id="apiTestBtn"
+                        type="button"
                     >
                         Test Upload
                     </button>
 
                 </div>
+
 
                 <div
                     id="apiLoading"
@@ -358,15 +560,19 @@
                     Mengirim request...
                 </div>
 
+
                 <pre
                     id="apiResult"
                     class="json-result"
-                >{
+>{
   "status": true,
   "message": "Ready"
 }</pre>
 
             </div>
+
+
+            <!-- CODE EXAMPLE -->
 
             <div class="code-card">
 
@@ -376,25 +582,31 @@
                         Contoh Penggunaan
                     </h2>
 
+
                     <div class="code-tabs">
 
                         <button
                             class="code-tab active"
                             data-code="curl"
+                            type="button"
                         >
                             cURL
                         </button>
 
+
                         <button
                             class="code-tab"
                             data-code="node"
+                            type="button"
                         >
                             Node.js
                         </button>
 
+
                         <button
                             class="code-tab"
                             data-code="rey"
+                            type="button"
                         >
                             ReyCloud API
                         </button>
@@ -403,16 +615,21 @@
 
                 </div>
 
+
                 <div class="code-box">
 
                     <button
                         class="copy-code"
                         id="copyCode"
+                        type="button"
                     >
                         Copy
                     </button>
 
-                    <pre id="codeOutput"></pre>
+
+                    <pre
+                        id="codeOutput"
+                    ></pre>
 
                 </div>
 
@@ -421,9 +638,15 @@
         </section>
 
 
-        <!-- DOWNLOADER -->
 
-        <section class="page" id="page-downloader">
+        <!-- ========================= -->
+        <!-- DOWNLOADER -->
+        <!-- ========================= -->
+
+        <section
+            class="page"
+            id="page-downloader"
+        >
 
             <div class="page-title">
 
@@ -431,9 +654,11 @@
                     DOWNLOADER
                 </span>
 
+
                 <h1>
                     All Media Downloader
                 </h1>
+
 
                 <p>
                     Download media menggunakan endpoint
@@ -442,11 +667,13 @@
 
             </div>
 
+
             <div class="downloader-card">
 
-                <label>
+                <label for="downloadUrl">
                     URL Media
                 </label>
+
 
                 <div class="url-input">
 
@@ -454,16 +681,29 @@
                         type="url"
                         id="downloadUrl"
                         placeholder="https://vt.tiktok.com/..."
+                        autocomplete="off"
                     >
+
 
                     <button
                         class="primary-btn"
                         id="downloadBtn"
+                        type="button"
                     >
                         Process
                     </button>
 
                 </div>
+
+
+                <div
+                    id="downloadLoading"
+                    class="api-loading"
+                    style="display:none"
+                >
+                    Memproses URL...
+                </div>
+
 
                 <div
                     id="downloadResult"
@@ -475,9 +715,15 @@
         </section>
 
 
-        <!-- ABOUT -->
 
-        <section class="page" id="page-about">
+        <!-- ========================= -->
+        <!-- ABOUT -->
+        <!-- ========================= -->
+
+        <section
+            class="page"
+            id="page-about"
+        >
 
             <div class="about-card">
 
@@ -490,13 +736,16 @@
 
                 </div>
 
+
                 <span class="badge">
                     ABOUT REYCLOUD
                 </span>
 
+
                 <h1>
                     ReyCloud
                 </h1>
+
 
                 <p>
                     ReyCloud adalah platform media uploader
@@ -505,11 +754,15 @@
                     file secara cepat.
                 </p>
 
+
                 <p>
                     Kami terus mengembangkan fitur baru
                     agar ReyCloud menjadi platform yang
                     sederhana, cepat dan mudah digunakan.
                 </p>
+
+
+                <!-- SUPPORT -->
 
                 <div class="support">
 
@@ -517,41 +770,88 @@
                         Support Kami
                     </h3>
 
+
                     <div class="socials">
+
+
+                        <!-- WHATSAPP -->
 
                         <a
                             href="https://whatsapp.com/channel/0029Vb8AU5sEQIakiPGkOA2k"
                             target="_blank"
+                            rel="noopener noreferrer"
                         >
 
-                            <div class="social-logo whatsapp">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M20 3.9A10 10 0 0 0 3.8 16.8L3 21l4.3-1.1A10 10 0 1 0 20 3.9Zm-8 16.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-2.5.6.7-2.4-.2-.3A8.3 8.3 0 1 1 12 20.2Zm4.5-6.2c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1-.1.2-.5.7-.6.8-.1.2-.2.2-.4.1-1.1-.5-1.8-.9-2.6-2-.2-.3.2-.3.6-1 .1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 3.9 3.4 1.4.6 2 .6 2.7.5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3Z"/>
+                            <div
+                                class="social-logo whatsapp"
+                            >
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+
+                                    <path
+                                        d="M20 3.9A10 10 0 0 0 3.8 16.8L3 21l4.3-1.1A10 10 0 1 0 20 3.9Zm-8 16.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-2.5.6.7-2.4-.2-.3A8.3 8.3 0 1 1 12 20.2Zm4.5-6.2c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1-.1.2-.5.7-.6.8-.1.2-.2.2-.4.1-1.1-.5-1.8-.9-2.6-2-.2-.3.2-.3.6-1 .1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 3.9 3.4 1.4.6 2 .6 2.7.5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3Z"
+                                    />
+
                                 </svg>
+
                             </div>
 
+
                             <div>
-                                <b>WhatsApp</b>
-                                <span>Channel ReyCloud</span>
+
+                                <b>
+                                    WhatsApp
+                                </b>
+
+                                <span>
+                                    Channel ReyCloud
+                                </span>
+
                             </div>
 
                         </a>
 
 
+
+                        <!-- TELEGRAM -->
+
                         <a
                             href="https://t.me/AboutReyZ4You"
                             target="_blank"
+                            rel="noopener noreferrer"
                         >
 
-                            <div class="social-logo telegram">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M21.8 3.2 18.5 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.5.5-1 .5l.4-5.6 10.2-9.2c.4-.4-.1-.6-.6-.2L4.7 13.1.1 11.7c-1-.3-1-1 .2-1.5L20.1 2.7c.9-.3 1.8.2 1.7.5Z"/>
+                            <div
+                                class="social-logo telegram"
+                            >
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+
+                                    <path
+                                        d="M21.8 3.2 18.5 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.5.5-1 .5l.4-5.6 10.2-9.2c.4-.4-.1-.6-.6-.2L4.7 13.1.1 11.7c-1-.3-1-1 .2-1.5L20.1 2.7c.9-.3 1.8.2 1.7.5Z"
+                                    />
+
                                 </svg>
+
                             </div>
 
+
                             <div>
-                                <b>Telegram</b>
-                                <span>About Rey4You</span>
+
+                                <b>
+                                    Telegram
+                                </b>
+
+                                <span>
+                                    About Rey4You
+                                </span>
+
                             </div>
 
                         </a>
@@ -566,26 +866,44 @@
 
     </main>
 
+
+
+    <!-- FOOTER -->
+
     <footer>
 
         <span>
             © 2026 ReyCloud
         </span>
 
+
         <span>
-            Powered By <b>PT Legion Teknologi</b>
+            Powered By
+            <b>
+                PT Legion Teknologi
+            </b>
         </span>
 
     </footer>
 
 </div>
 
+
+
+<!-- TOAST -->
+
 <div
     class="toast"
     id="toast"
+    role="status"
+    aria-live="polite"
 >
     Copied!
 </div>
+
+
+
+<!-- WELCOME -->
 
 <div
     class="welcome"
@@ -597,36 +915,45 @@
         <button
             class="welcome-close"
             id="welcomeClose"
+            type="button"
+            aria-label="Tutup"
         >
             ×
         </button>
+
 
         <img
             src="https://api.legionteknologi.my.id/f/oveH9i.png"
             alt="ReyCloud"
         >
 
+
         <span class="badge">
             WELCOME
         </span>
 
+
         <h2>
             Hallo Pengguna 👋
         </h2>
+
 
         <p>
             Terima kasih telah menggunakan
             <b>ReyCloud Uploader</b>.
         </p>
 
+
         <p>
             Semoga layanan kami dapat membantu
             kebutuhan upload dan berbagi file kamu.
         </p>
 
+
         <button
             class="primary-btn"
             id="welcomeOk"
+            type="button"
         >
             Mulai Sekarang
         </button>
@@ -634,6 +961,8 @@
     </div>
 
 </div>
+
+
 
 <script src="script.js"></script>
 
