@@ -53,66 +53,43 @@ const uploadBtn =
     document.getElementById("uploadBtn");
 
 const progressContainer =
-    document.getElementById(
-        "progressContainer"
-    );
+    document.getElementById("progressContainer");
 
 const progressBar =
-    document.getElementById(
-        "progressBar"
-    );
+    document.getElementById("progressBar");
 
 const progressPercent =
-    document.getElementById(
-        "progressPercent"
-    );
+    document.getElementById("progressPercent");
 
 const progressStatus =
-    document.getElementById(
-        "progressStatus"
-    );
+    document.getElementById("progressStatus");
 
 const progressInfo =
-    document.getElementById(
-        "progressInfo"
-    );
+    document.getElementById("progressInfo");
 
 const uploadResult =
-    document.getElementById(
-        "uploadResult"
-    );
+    document.getElementById("uploadResult");
 
 const filePreview =
-    document.getElementById(
-        "filePreview"
-    );
+    document.getElementById("filePreview");
 
 const imagePreview =
-    document.getElementById(
-        "imagePreview"
-    );
+    document.getElementById("imagePreview");
 
 const videoPreview =
-    document.getElementById(
-        "videoPreview"
-    );
+    document.getElementById("videoPreview");
 
 const audioPreview =
-    document.getElementById(
-        "audioPreview"
-    );
+    document.getElementById("audioPreview");
 
 const toast =
     document.getElementById("toast");
 
 let selectedFile = null;
-
 let currentCode = "curl";
-
 let uploadXHR = null;
-
 let toastTimer = null;
-
+let previewUrl = null;
 
 const codes = {
 
@@ -153,6 +130,10 @@ console.log(response);`
 };
 
 
+/* ============================================================
+   TOAST
+============================================================ */
+
 function showToast(message) {
 
     if (!toast) {
@@ -167,27 +148,32 @@ function showToast(message) {
 
     toastTimer = setTimeout(() => {
 
-        toast.classList.remove(
-            "show"
-        );
+        toast.classList.remove("show");
 
     }, 1800);
+
 }
 
 
+/* ============================================================
+   MENU
+============================================================ */
+
 function openMenu() {
 
-    sidebar.classList.add("open");
+    sidebar?.classList.add("open");
 
-    overlay.classList.add("active");
+    overlay?.classList.add("active");
+
 }
 
 
 function closeMenu() {
 
-    sidebar.classList.remove("open");
+    sidebar?.classList.remove("open");
 
-    overlay.classList.remove("active");
+    overlay?.classList.remove("active");
+
 }
 
 
@@ -196,9 +182,7 @@ menuBtn?.addEventListener(
     () => {
 
         if (
-            sidebar.classList.contains(
-                "open"
-            )
+            sidebar?.classList.contains("open")
         ) {
 
             closeMenu();
@@ -218,6 +202,10 @@ overlay?.addEventListener(
     closeMenu
 );
 
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
 navItems.forEach(item => {
 
@@ -274,13 +262,21 @@ navItems.forEach(item => {
 });
 
 
+/* ============================================================
+   FILE INPUT
+============================================================ */
+
 chooseBtn?.addEventListener(
     "click",
     event => {
 
         event.stopPropagation();
 
-        fileInput.click();
+        if (!uploadXHR) {
+
+            fileInput?.click();
+
+        }
 
     }
 );
@@ -303,7 +299,7 @@ dropZone?.addEventListener(
             !uploadXHR
         ) {
 
-            fileInput.click();
+            fileInput?.click();
 
         }
 
@@ -330,6 +326,10 @@ fileInput?.addEventListener(
 );
 
 
+/* ============================================================
+   SET FILE
+============================================================ */
+
 function setFile(file) {
 
     if (!file) {
@@ -345,7 +345,9 @@ function setFile(file) {
             "File maksimal 1GB"
         );
 
-        fileInput.value = "";
+        if (fileInput) {
+            fileInput.value = "";
+        }
 
         return;
 
@@ -353,29 +355,64 @@ function setFile(file) {
 
     selectedFile = file;
 
-    fileName.textContent =
-        file.name;
+    if (fileName) {
 
-    fileSize.textContent =
-        formatSize(file.size);
+        fileName.textContent =
+            file.name;
 
-    fileType.textContent =
-        file.type ||
-        "application/octet-stream";
+    }
 
-    fileIcon.textContent =
-        getFileIcon(file.type);
+    if (fileSize) {
 
-    fileInfo.style.display =
-        "flex";
+        fileSize.textContent =
+            formatSize(file.size);
 
-    uploadBtn.disabled =
-        false;
+    }
 
-    uploadResult.innerHTML = "";
+    if (fileType) {
 
-    progressContainer.style.display =
-        "none";
+        fileType.textContent =
+            file.type ||
+            "application/octet-stream";
+
+    }
+
+    if (fileIcon) {
+
+        fileIcon.textContent =
+            getFileIcon(file.type);
+
+    }
+
+    if (fileInfo) {
+
+        fileInfo.style.display =
+            "flex";
+
+    }
+
+    if (uploadBtn) {
+
+        uploadBtn.disabled =
+            false;
+
+    }
+
+    if (uploadResult) {
+
+        uploadResult.innerHTML =
+            "";
+
+    }
+
+    if (progressContainer) {
+
+        progressContainer.style.display =
+            "none";
+
+    }
+
+    resetProgress();
 
     resetPreview();
 
@@ -384,54 +421,57 @@ function setFile(file) {
 }
 
 
+/* ============================================================
+   FILE ICON
+============================================================ */
+
 function getFileIcon(type = "") {
 
     if (
-        type.startsWith(
-            "image/"
-        )
+        type.startsWith("image/")
     ) {
         return "IMG";
     }
 
     if (
-        type.startsWith(
-            "video/"
-        )
+        type.startsWith("video/")
     ) {
         return "VIDEO";
     }
 
     if (
-        type.startsWith(
-            "audio/"
-        )
+        type.startsWith("audio/")
     ) {
         return "AUDIO";
     }
 
     if (
-        type.includes(
-            "pdf"
-        )
+        type.includes("pdf")
     ) {
         return "PDF";
     }
 
     if (
-        type.includes(
-            "zip"
-        ) ||
-        type.includes(
-            "rar"
-        )
+        type.includes("zip") ||
+        type.includes("rar")
     ) {
         return "ZIP";
     }
 
+    if (
+        type.includes("text")
+    ) {
+        return "TXT";
+    }
+
     return "FILE";
+
 }
 
+
+/* ============================================================
+   PREVIEW
+============================================================ */
 
 function createPreview(file) {
 
@@ -439,78 +479,68 @@ function createPreview(file) {
         return;
     }
 
-    if (
-        file.type.startsWith(
-            "image/"
-        )
-    ) {
+    resetPreview();
 
-        const url =
-            URL.createObjectURL(
-                file
-            );
-
-        imagePreview.src =
-            url;
-
-        imagePreview.style.display =
-            "block";
-
-        filePreview.style.display =
-            "block";
-
-        imagePreview.onload = () => {
-
-            URL.revokeObjectURL(
-                url
-            );
-
-        };
-
-        return;
-    }
-
+    previewUrl =
+        URL.createObjectURL(file);
 
     if (
-        file.type.startsWith(
-            "video/"
-        )
+        file.type.startsWith("image/")
     ) {
 
-        const url =
-            URL.createObjectURL(
-                file
-            );
+        if (imagePreview) {
 
-        videoPreview.src =
-            url;
+            imagePreview.src =
+                previewUrl;
 
-        videoPreview.style.display =
-            "block";
+            imagePreview.style.display =
+                "block";
+
+        }
 
         filePreview.style.display =
             "block";
 
         return;
+
     }
 
 
     if (
-        file.type.startsWith(
-            "audio/"
-        )
+        file.type.startsWith("video/")
     ) {
 
-        const url =
-            URL.createObjectURL(
-                file
-            );
+        if (videoPreview) {
 
-        audioPreview.src =
-            url;
+            videoPreview.src =
+                previewUrl;
 
-        audioPreview.style.display =
+            videoPreview.style.display =
+                "block";
+
+        }
+
+        filePreview.style.display =
             "block";
+
+        return;
+
+    }
+
+
+    if (
+        file.type.startsWith("audio/")
+    ) {
+
+        if (audioPreview) {
+
+            audioPreview.src =
+                previewUrl;
+
+            audioPreview.style.display =
+                "block";
+
+        }
 
         filePreview.style.display =
             "block";
@@ -522,30 +552,64 @@ function createPreview(file) {
 
 function resetPreview() {
 
+    if (previewUrl) {
+
+        try {
+
+            URL.revokeObjectURL(
+                previewUrl
+            );
+
+        } catch {}
+
+        previewUrl = null;
+
+    }
+
     if (!filePreview) {
         return;
     }
 
-    imagePreview.style.display =
-        "none";
+    if (imagePreview) {
 
-    videoPreview.style.display =
-        "none";
+        imagePreview.style.display =
+            "none";
 
-    audioPreview.style.display =
-        "none";
+        imagePreview.removeAttribute(
+            "src"
+        );
 
-    imagePreview.removeAttribute(
-        "src"
-    );
+    }
 
-    videoPreview.removeAttribute(
-        "src"
-    );
+    if (videoPreview) {
 
-    audioPreview.removeAttribute(
-        "src"
-    );
+        videoPreview.pause?.();
+
+        videoPreview.style.display =
+            "none";
+
+        videoPreview.removeAttribute(
+            "src"
+        );
+
+        videoPreview.load?.();
+
+    }
+
+    if (audioPreview) {
+
+        audioPreview.pause?.();
+
+        audioPreview.style.display =
+            "none";
+
+        audioPreview.removeAttribute(
+            "src"
+        );
+
+        audioPreview.load?.();
+
+    }
 
     filePreview.style.display =
         "none";
@@ -553,10 +617,15 @@ function resetPreview() {
 }
 
 
+/* ============================================================
+   FORMAT SIZE
+============================================================ */
+
 function formatSize(bytes) {
 
     if (
-        !Number.isFinite(bytes)
+        !Number.isFinite(bytes) ||
+        bytes <= 0
     ) {
         return "0 B";
     }
@@ -592,13 +661,56 @@ function formatSize(bytes) {
 }
 
 
+/* ============================================================
+   RESET PROGRESS
+============================================================ */
+
+function resetProgress() {
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "0%";
+
+    }
+
+    if (progressPercent) {
+
+        progressPercent.textContent =
+            "0%";
+
+    }
+
+    if (progressStatus) {
+
+        progressStatus.textContent =
+            "Uploading...";
+
+    }
+
+    if (progressInfo) {
+
+        progressInfo.textContent =
+            "Menyiapkan upload...";
+
+    }
+
+}
+
+
+/* ============================================================
+   REMOVE FILE
+============================================================ */
+
 removeFile?.addEventListener(
     "click",
     () => {
 
         if (uploadXHR) {
 
-            uploadXHR.abort();
+            try {
+                uploadXHR.abort();
+            } catch {}
 
             uploadXHR = null;
 
@@ -606,39 +718,42 @@ removeFile?.addEventListener(
 
         selectedFile = null;
 
-        fileInput.value = "";
+        if (fileInput) {
 
-        fileInfo.style.display =
-            "none";
-
-        uploadBtn.disabled =
-            true;
-
-        uploadResult.innerHTML =
-            "";
-
-        progressContainer.style.display =
-            "none";
-
-        progressBar.style.width =
-            "0%";
-
-        progressPercent.textContent =
-            "0%";
-
-        if (progressStatus) {
-
-            progressStatus.textContent =
-                "Uploading...";
+            fileInput.value =
+                "";
 
         }
 
-        if (progressInfo) {
+        if (fileInfo) {
 
-            progressInfo.textContent =
-                "Menyiapkan upload...";
+            fileInfo.style.display =
+                "none";
 
         }
+
+        if (uploadBtn) {
+
+            uploadBtn.disabled =
+                true;
+
+        }
+
+        if (uploadResult) {
+
+            uploadResult.innerHTML =
+                "";
+
+        }
+
+        if (progressContainer) {
+
+            progressContainer.style.display =
+                "none";
+
+        }
+
+        resetProgress();
 
         resetPreview();
 
@@ -646,15 +761,17 @@ removeFile?.addEventListener(
 );
 
 
+/* ============================================================
+   DRAG & DROP
+============================================================ */
+
 dropZone?.addEventListener(
     "dragover",
     event => {
 
         event.preventDefault();
 
-        if (
-            !uploadXHR
-        ) {
+        if (!uploadXHR) {
 
             dropZone.classList.add(
                 "dragging"
@@ -695,7 +812,7 @@ dropZone?.addEventListener(
         }
 
         const file =
-            event.dataTransfer.files[0];
+            event.dataTransfer?.files?.[0];
 
         if (file) {
 
@@ -706,6 +823,10 @@ dropZone?.addEventListener(
     }
 );
 
+
+/* ============================================================
+   UPLOAD
+============================================================ */
 
 uploadBtn?.addEventListener(
     "click",
@@ -740,7 +861,8 @@ function uploadFile() {
 
     formData.append(
         "file",
-        selectedFile
+        selectedFile,
+        selectedFile.name
     );
 
     const xhr =
@@ -748,17 +870,21 @@ function uploadFile() {
 
     uploadXHR = xhr;
 
-    progressContainer.style.display =
-        "block";
+    if (progressContainer) {
 
-    uploadBtn.disabled =
-        true;
+        progressContainer.style.display =
+            "block";
 
-    progressBar.style.width =
-        "0%";
+    }
 
-    progressPercent.textContent =
-        "0%";
+    if (uploadBtn) {
+
+        uploadBtn.disabled =
+            true;
+
+    }
+
+    resetProgress();
 
     if (progressStatus) {
 
@@ -770,12 +896,18 @@ function uploadFile() {
     if (progressInfo) {
 
         progressInfo.textContent =
-            "Mengirim file ke ReyCloud CDN...";
+            `Mengirim ${formatSize(
+                selectedFile.size
+            )} ke ReyCloud CDN...`;
 
     }
 
-    uploadResult.innerHTML =
-        "";
+    if (uploadResult) {
+
+        uploadResult.innerHTML =
+            "";
+
+    }
 
     xhr.open(
         "POST",
@@ -786,49 +918,10 @@ function uploadFile() {
     xhr.timeout =
         180000;
 
-    xhr.upload.addEventListener(
-        "progress",
-        event => {
 
-            if (
-                event.lengthComputable
-            ) {
-
-                const percent =
-                    Math.min(
-                        100,
-                        Math.round(
-                            (
-                                event.loaded /
-                                event.total
-                            ) * 100
-                        )
-                    );
-
-                progressBar.style.width =
-                    `${percent}%`;
-
-                progressPercent.textContent =
-                    `${percent}%`;
-
-                if (
-                    progressInfo
-                ) {
-
-                    progressInfo.textContent =
-                        `${formatSize(
-                            event.loaded
-                        )} / ${formatSize(
-                            event.total
-                        )}`;
-
-                }
-
-            }
-
-        }
-    );
-
+    /* --------------------------------------------------------
+       UPLOAD PROGRESS
+    -------------------------------------------------------- */
 
     xhr.upload.addEventListener(
         "loadstart",
@@ -838,6 +931,56 @@ function uploadFile() {
 
                 progressStatus.textContent =
                     "Uploading...";
+
+            }
+
+        }
+    );
+
+
+    xhr.upload.addEventListener(
+        "progress",
+        event => {
+
+            if (
+                !event.lengthComputable
+            ) {
+                return;
+            }
+
+            const percent =
+                Math.min(
+                    100,
+                    Math.round(
+                        (
+                            event.loaded /
+                            event.total
+                        ) * 100
+                    )
+                );
+
+            if (progressBar) {
+
+                progressBar.style.width =
+                    `${percent}%`;
+
+            }
+
+            if (progressPercent) {
+
+                progressPercent.textContent =
+                    `${percent}%`;
+
+            }
+
+            if (progressInfo) {
+
+                progressInfo.textContent =
+                    `${formatSize(
+                        event.loaded
+                    )} / ${formatSize(
+                        event.total
+                    )}`;
 
             }
 
@@ -867,113 +1010,218 @@ function uploadFile() {
     );
 
 
+    /* --------------------------------------------------------
+       RESPONSE
+    -------------------------------------------------------- */
+
     xhr.onload = () => {
 
         uploadXHR = null;
 
-        uploadBtn.disabled =
-            false;
+        if (uploadBtn) {
 
-        let data;
+            uploadBtn.disabled =
+                false;
 
-        try {
+        }
 
-            data =
-                JSON.parse(
-                    xhr.responseText
-                );
+        const responseText =
+            (
+                xhr.responseText ||
+                ""
+            ).trim();
 
-        } catch {
+
+        if (
+            xhr.status >= 200 &&
+            xhr.status < 300
+        ) {
+
+            let data = null;
+
+            try {
+
+                data =
+                    JSON.parse(
+                        responseText
+                    );
+
+            } catch {
+
+                data = null;
+
+            }
+
+
+            /* JSON RESPONSE */
 
             if (
-                xhr.status >= 200 &&
-                xhr.status < 300
+                data &&
+                data.status &&
+                data.result
             ) {
 
                 showUploadSuccess(
-                    {
-                        url: null,
-                        raw:
-                            xhr.responseText
-                    }
+                    data.result
                 );
 
-            } else {
-
-                showUploadError(
-                    xhr.responseText ||
-                    `HTTP ${xhr.status}`
-                );
+                return;
 
             }
+
+
+            /* PLAIN URL RESPONSE */
+
+            if (
+                responseText &&
+                /^https?:\/\//i.test(
+                    responseText
+                )
+            ) {
+
+                showUploadSuccess({
+
+                    url:
+                        responseText,
+
+                    filename:
+                        selectedFile?.name ||
+                        "uploaded-file",
+
+                    originalName:
+                        selectedFile?.name ||
+                        "uploaded-file",
+
+                    size:
+                        selectedFile?.size ||
+                        0,
+
+                    mimetype:
+                        selectedFile?.type ||
+                        "application/octet-stream",
+
+                    type:
+                        getFileType(
+                            selectedFile?.type ||
+                            ""
+                        )
+
+                });
+
+                return;
+
+            }
+
+
+            showUploadError(
+                "Server berhasil merespons, tetapi format response tidak dikenali."
+            );
 
             return;
 
         }
 
 
-        if (
-            xhr.status >= 200 &&
-            xhr.status < 300 &&
-            data.status &&
-            data.result
-        ) {
+        /* ----------------------------------------------------
+           HTTP ERROR
+        ---------------------------------------------------- */
 
-            showUploadSuccess(
-                data.result
-            );
+        let errorMessage =
+            responseText ||
+            `HTTP ${xhr.status}`;
 
-        } else {
+        try {
 
-            showUploadError(
-                data.message ||
-                data.error ||
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
-            );
+            const errorData =
+                JSON.parse(
+                    responseText
+                );
 
-        }
+            errorMessage =
+                errorData.message ||
+                errorData.error ||
+                errorMessage;
+
+        } catch {}
+
+
+        showUploadError(
+            errorMessage
+        );
 
     };
 
+
+    /* --------------------------------------------------------
+       NETWORK / CORS ERROR
+    -------------------------------------------------------- */
 
     xhr.onerror = () => {
 
         uploadXHR = null;
 
-        uploadBtn.disabled =
-            false;
+        if (uploadBtn) {
+
+            uploadBtn.disabled =
+                false;
+
+        }
+
+        let message =
+            "Tidak dapat terhubung ke API.";
+
+        if (
+            xhr.status === 0
+        ) {
+
+            message =
+                "Koneksi API gagal atau response diblokir browser. Periksa CORS, domain API, atau koneksi server.";
+
+        }
 
         showUploadError(
-            "Tidak dapat terhubung ke API."
+            message
         );
 
     };
 
+
+    /* --------------------------------------------------------
+       TIMEOUT
+    -------------------------------------------------------- */
 
     xhr.ontimeout = () => {
 
         uploadXHR = null;
 
-        uploadBtn.disabled =
-            false;
+        if (uploadBtn) {
+
+            uploadBtn.disabled =
+                false;
+
+        }
 
         showUploadError(
-            "Upload timeout. Coba lagi dengan file yang lebih kecil atau periksa koneksi."
+            "Upload timeout setelah 180 detik. Coba lagi atau periksa koneksi server."
         );
 
     };
 
 
+    /* --------------------------------------------------------
+       ABORT
+    -------------------------------------------------------- */
+
     xhr.onabort = () => {
 
         uploadXHR = null;
 
-        uploadBtn.disabled =
-            false;
+        if (uploadBtn) {
+
+            uploadBtn.disabled =
+                false;
+
+        }
 
         if (progressStatus) {
 
@@ -982,25 +1230,64 @@ function uploadFile() {
 
         }
 
+        if (progressInfo) {
+
+            progressInfo.textContent =
+                "Upload dihentikan.";
+
+        }
+
     };
 
 
-    xhr.send(
-        formData
-    );
+    try {
+
+        xhr.send(
+            formData
+        );
+
+    } catch (error) {
+
+        uploadXHR = null;
+
+        if (uploadBtn) {
+
+            uploadBtn.disabled =
+                false;
+
+        }
+
+        showUploadError(
+            error.message ||
+            "Gagal mengirim file."
+        );
+
+    }
 
 }
 
+
+/* ============================================================
+   UPLOAD SUCCESS
+============================================================ */
 
 function showUploadSuccess(
     result
 ) {
 
-    progressBar.style.width =
-        "100%";
+    if (progressBar) {
 
-    progressPercent.textContent =
-        "100%";
+        progressBar.style.width =
+            "100%";
+
+    }
+
+    if (progressPercent) {
+
+        progressPercent.textContent =
+            "100%";
+
+    }
 
     if (progressStatus) {
 
@@ -1018,32 +1305,37 @@ function showUploadSuccess(
 
 
     const url =
-        result.url || "";
+        result?.url ||
+        "";
 
     const name =
-        result.filename ||
-        result.originalName ||
+        result?.filename ||
+        result?.originalName ||
         selectedFile?.name ||
         "-";
 
     const size =
-        result.size ||
+        Number(
+            result?.size
+        ) ||
         selectedFile?.size ||
         0;
 
     const mime =
-        result.mimetype ||
+        result?.mimetype ||
         selectedFile?.type ||
         "application/octet-stream";
 
     const type =
-        result.type ||
+        result?.type ||
         getFileType(mime);
 
 
     if (!url) {
 
-        uploadResult.innerHTML =
+        if (uploadResult) {
+
+            uploadResult.innerHTML =
 `<div class="result-box">
 
     <strong>
@@ -1051,17 +1343,22 @@ function showUploadSuccess(
     </strong>
 
     <pre>${escapeHtml(
-        result.raw ||
+        result?.raw ||
         "Server tidak mengembalikan URL."
     )}</pre>
 
 </div>`;
 
+        }
+
         return;
+
     }
 
 
-    uploadResult.innerHTML =
+    if (uploadResult) {
+
+        uploadResult.innerHTML =
 `<div class="result-box">
 
     <strong>
@@ -1092,7 +1389,6 @@ function showUploadSuccess(
 
     </div>
 
-
     <div class="result-url">
 
         <input
@@ -1100,7 +1396,6 @@ function showUploadSuccess(
             readonly
             id="resultUrl"
         >
-
 
         <button
             class="copy-small"
@@ -1112,7 +1407,6 @@ function showUploadSuccess(
 
     </div>
 
-
     <div class="result-actions">
 
         <button
@@ -1122,7 +1416,6 @@ function showUploadSuccess(
         >
             📋 Salin URL
         </button>
-
 
         <a
             class="primary-btn"
@@ -1137,6 +1430,8 @@ function showUploadSuccess(
     </div>
 
 </div>`;
+
+    }
 
 
     document
@@ -1167,11 +1462,19 @@ function showUploadSuccess(
         );
 
 
-    progressContainer.style.display =
-        "block";
+    if (progressContainer) {
+
+        progressContainer.style.display =
+            "block";
+
+    }
 
 }
 
+
+/* ============================================================
+   UPLOAD ERROR
+============================================================ */
 
 function showUploadError(
     message
@@ -1191,8 +1494,9 @@ function showUploadError(
 
     }
 
+    if (uploadResult) {
 
-    uploadResult.innerHTML =
+        uploadResult.innerHTML =
 `<div class="result-box">
 
     <strong style="color:#ff7070">
@@ -1200,7 +1504,9 @@ function showUploadError(
     </strong>
 
     <p>
-        ${escapeHtml(message)}
+        ${escapeHtml(
+            message
+        )}
     </p>
 
     <button
@@ -1212,6 +1518,8 @@ function showUploadError(
     </button>
 
 </div>`;
+
+    }
 
 
     document
@@ -1226,41 +1534,59 @@ function showUploadError(
 }
 
 
+/* ============================================================
+   FILE TYPE
+============================================================ */
+
 function getFileType(
     mime = ""
 ) {
 
     if (
-        mime.startsWith(
-            "image/"
-        )
+        mime.startsWith("image/")
     ) {
         return "image";
     }
 
     if (
-        mime.startsWith(
-            "video/"
-        )
+        mime.startsWith("video/")
     ) {
         return "video";
     }
 
     if (
-        mime.startsWith(
-            "audio/"
-        )
+        mime.startsWith("audio/")
     ) {
         return "music";
     }
 
+    if (
+        mime.includes("pdf")
+    ) {
+        return "pdf";
+    }
+
+    if (
+        mime.includes("zip") ||
+        mime.includes("rar")
+    ) {
+        return "archive";
+    }
+
     return "file";
+
 }
 
 
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
 function escapeHtml(value) {
 
-    return String(value)
+    return String(
+        value ?? ""
+    )
         .replaceAll(
             "&",
             "&amp;"
@@ -1291,6 +1617,10 @@ function escapeAttr(value) {
 
 }
 
+
+/* ============================================================
+   COPY
+============================================================ */
 
 async function copyText(text) {
 
@@ -1336,6 +1666,12 @@ async function copyText(text) {
         textarea.style.position =
             "fixed";
 
+        textarea.style.left =
+            "-9999px";
+
+        textarea.style.top =
+            "0";
+
         textarea.style.opacity =
             "0";
 
@@ -1347,15 +1683,31 @@ async function copyText(text) {
 
         textarea.select();
 
-        document.execCommand(
-            "copy"
+        textarea.setSelectionRange(
+            0,
+            textarea.value.length
         );
+
+        const success =
+            document.execCommand(
+                "copy"
+            );
 
         textarea.remove();
 
-        showToast(
-            "Berhasil disalin!"
-        );
+        if (success) {
+
+            showToast(
+                "Berhasil disalin!"
+            );
+
+        } else {
+
+            showToast(
+                "Gagal menyalin URL"
+            );
+
+        }
 
     } catch {
 
@@ -1367,6 +1719,10 @@ async function copyText(text) {
 
 }
 
+
+/* ============================================================
+   DATA COPY
+============================================================ */
 
 document
     .querySelectorAll(
@@ -1387,6 +1743,10 @@ document
 
     });
 
+
+/* ============================================================
+   CODE TABS
+============================================================ */
 
 document
     .querySelectorAll(
@@ -1417,7 +1777,8 @@ document
 
 
                 currentCode =
-                    tab.dataset.code;
+                    tab.dataset.code ||
+                    "curl";
 
 
                 renderCode();
@@ -1465,6 +1826,10 @@ document
 renderCode();
 
 
+/* ============================================================
+   API TESTER
+============================================================ */
+
 document
     .getElementById(
         "apiTestBtn"
@@ -1494,6 +1859,7 @@ async function testApi() {
 
     if (
         !input ||
+        !input.files ||
         !input.files.length
     ) {
 
@@ -1551,7 +1917,8 @@ async function testApi() {
 
     form.append(
         "file",
-        file
+        file,
+        file.name
     );
 
 
@@ -1561,7 +1928,6 @@ async function testApi() {
             "block";
 
     }
-
 
     if (result) {
 
@@ -1575,7 +1941,8 @@ async function testApi() {
 
         const response =
             await fetch(
-                API_UPLOAD,
+                API_UPLOAD +
+                "?reqtype=fileupload",
                 {
                     method: "POST",
                     body: form
@@ -1584,27 +1951,53 @@ async function testApi() {
 
 
         const text =
-            await response.text();
+            (
+                await response.text()
+            ).trim();
 
 
         let data;
 
+
         try {
 
             data =
-                JSON.parse(
-                    text
-                );
+                JSON.parse(text);
 
         } catch {
 
-            data = {
-                status: false,
-                code:
-                    response.status,
-                response:
+            if (
+                response.ok &&
+                /^https?:\/\//i.test(
                     text
-            };
+                )
+            ) {
+
+                data = {
+
+                    status: true,
+
+                    result: {
+                        url: text
+                    }
+
+                };
+
+            } else {
+
+                data = {
+
+                    status: false,
+
+                    code:
+                        response.status,
+
+                    response:
+                        text
+
+                };
+
+            }
 
         }
 
@@ -1629,7 +2022,8 @@ async function testApi() {
                     {
                         status: false,
                         error:
-                            error.message
+                            error.message ||
+                            "Tidak dapat terhubung ke API."
                     },
                     null,
                     2
@@ -1650,6 +2044,10 @@ async function testApi() {
 
 }
 
+
+/* ============================================================
+   DOWNLOADER
+============================================================ */
 
 document
     .getElementById(
@@ -1735,6 +2133,7 @@ async function downloadMedia() {
 
         let data;
 
+
         try {
 
             data =
@@ -1746,6 +2145,19 @@ async function downloadMedia() {
 
             throw new Error(
                 "Response downloader bukan JSON."
+            );
+
+        }
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                data.message ||
+                data.error ||
+                `HTTP ${response.status}`
             );
 
         }
@@ -1797,7 +2209,6 @@ async function downloadMedia() {
     alt="Thumbnail"
     loading="lazy"
 >`;
-
 
         }
 
@@ -1883,7 +2294,8 @@ async function downloadMedia() {
 
     <p>
         ${escapeHtml(
-            error.message
+            error.message ||
+            "Terjadi kesalahan."
         )}
     </p>
 
@@ -1902,6 +2314,10 @@ async function downloadMedia() {
 
 }
 
+
+/* ============================================================
+   WELCOME MODAL
+============================================================ */
 
 const welcome =
     document.getElementById(
@@ -1929,10 +2345,14 @@ function closeWelcome() {
         "hidden"
     );
 
-    localStorage.setItem(
-        "reycloud_welcome",
-        "1"
-    );
+    try {
+
+        localStorage.setItem(
+            "reycloud_welcome",
+            "1"
+        );
+
+    } catch {}
 
 }
 
@@ -1949,14 +2369,18 @@ welcomeOk?.addEventListener(
 );
 
 
-if (
-    localStorage.getItem(
-        "reycloud_welcome"
-    )
-) {
+try {
 
-    welcome?.classList.add(
-        "hidden"
-    );
+    if (
+        localStorage.getItem(
+            "reycloud_welcome"
+        )
+    ) {
 
-}
+        welcome?.classList.add(
+            "hidden"
+        );
+
+    }
+
+} catch {}
