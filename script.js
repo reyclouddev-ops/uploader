@@ -1,5 +1,5 @@
 const API_UPLOAD =
-    "https://api.legionteknologi.my.id/upload";
+    "https://api.reycode/upload";
 
 const API_DOWNLOADER =
     "https://api.nexray.eu.cc/downloader/aio";
